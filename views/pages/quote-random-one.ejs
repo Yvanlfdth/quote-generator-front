@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include('../templates/head'); %>
+    </head>
+<body>
+    <%- include('../templates/nav'); %>
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col">
+                <h1>Random quote</h1>
+            </div>
+        </div>
+        <form method="POST" action="/">
+            <div class="row mt-2">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Filters <i class="fa fa-filter"></i>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse <% if(showForm) { %>show<% } %>" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="form-group">
+                                    <label for="minLength">Min quote length</label>
+                                    <input type="number"
+                                            step="1"
+                                            class="form-control"
+                                            name="minLength"
+                                            id="minLength"
+                                            value="<% if(formValues && formValues?.minLength !== undefined) { %><%= formValues?.minLength %><% } %>"
+                                            placeholder="Enter min quote length">
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label for="maxLength">Max quote length</label>
+                                    <input type="number"
+                                            step="1"
+                                            class="form-control"
+                                            name="maxLength"
+                                            id="maxLength"
+                                            value="<% if(formValues && formValues?.maxLength !== undefined) { %><%= formValues?.maxLength %><% } %>"
+                                            placeholder="Enter max quote length">
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label for="author">Authors</label>
+                                    <input type="text"
+                                            class="form-control"
+                                            name="author"
+                                            id="author"
+                                            value="<% if(formValues && formValues?.author !== undefined) { %><%= formValues?.author %><% } %>"
+                                            placeholder="Enter authors (separated by pipes, no space between)">
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label for="tags">Tags</label>
+                                    <input type="text"
+                                            class="form-control"
+                                            name="tags"
+                                            id="tags"
+                                            value="<% if(formValues && formValues?.tags !== undefined) { %><%= formValues?.tags %><% } %>"
+                                            placeholder="Enter tags (separated by commas or pipes, no space between)">
+                                </div>
+                                <div class="mt-4">
+                                    <button type="button" 
+                                            class="btn btn-warning"
+                                            id="next_quote"
+                                            style="width: 130px;"
+                                            onclick="randomQuoteFormReset();">
+                                        Reset form <i class="fa fa-refresh"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <button type="submit" 
+                        class="btn btn-primary"
+                        style="width: 100px;">
+                    Next <i class="fa fa-angle-double-right"></i>
+                </button>
+            </div>
+        </form>
+        <div class="row mt-2">
+            <% if(!error) { %>
+                <div class="col">
+                    <blockquote class="blockquote">
+                        <p class="mb-0">
+                            <%= quote.content %>
+                        </p>
+                        <footer class="blockquote-footer">
+                            <%= quote.author %>
+                        </footer>
+                    </blockquote>
+                </div>
+            <% } else { %>
+                <%- include('../templates/error'); %>
+            <% } %>
+        </div>
+    </div>
+
+    <%- include('../../public/js/scripts'); %>
+</body>
+</html>
